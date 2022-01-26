@@ -36,6 +36,11 @@ describe('setup-go', () => {
   let execSpy: jest.SpyInstance;
   let getManifestSpy: jest.SpyInstance;
 
+  beforeAll(async () => {
+    console.log('::stop-commands::stoptoken'); // Disable executing of runner commands when running tests in actions
+    process.env['GITHUB_ENV'] = ''; // Stub out Environment file functionality so we can verify it writes to standard out (toolkit is backwards compatible)
+  }, 100000);
+
   beforeEach(() => {
     console.log('::stop-commands::stoptoken'); // Disable executing of runner commands when running tests in actions
     process.env['GITHUB_PATH'] = ''; // Stub out ENV file functionality so we can verify it writes to standard out
