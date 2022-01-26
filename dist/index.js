@@ -1472,7 +1472,7 @@ exports.debug = debug; // for test
 Object.defineProperty(exports, "__esModule", { value: true });
 const main_1 = __webpack_require__(198);
 main_1.run();
-
+//# sourceMappingURL=setup-go.js.map
 
 /***/ }),
 
@@ -2142,7 +2142,7 @@ function isGhes() {
     const ghUrl = new url_1.URL(process.env['GITHUB_SERVER_URL'] || 'https://github.com');
     return ghUrl.hostname.toUpperCase() !== 'GITHUB.COM';
 }
-
+//# sourceMappingURL=main.js.map
 
 /***/ }),
 
@@ -5756,7 +5756,7 @@ function getArch() {
     return arch;
 }
 exports.getArch = getArch;
-
+//# sourceMappingURL=system.js.map
 
 /***/ }),
 
@@ -6114,7 +6114,7 @@ function makeSemver(version) {
     return `${verPart}${prereleasePart}`;
 }
 exports.makeSemver = makeSemver;
-
+//# sourceMappingURL=installer.js.map
 
 /***/ }),
 
