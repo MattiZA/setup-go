@@ -696,6 +696,11 @@ describe('setup-go', () => {
       // a version which is not in the manifest but is in node dist
       let versionSpec = '1.13';
 
+      console.log(
+        `process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`
+      );
+      process.env['GITHUB_PATH'] = '';
+
       inputs['go-version'] = versionSpec;
       inputs['check-latest'] = true;
       inputs['always-auth'] = false;
@@ -733,10 +738,6 @@ describe('setup-go', () => {
       expect(logSpy).toHaveBeenCalledWith(
         `Attempting to download ${versionSpec}...`
       );
-      console.log(
-        `process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`
-      );
-      process.env['GITHUB_PATH'] = '';
 
       expect(cnSpy).toHaveBeenCalledWith(`::add-path::${expPath}${osm.EOL}`);
     });
