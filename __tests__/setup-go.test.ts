@@ -19,6 +19,7 @@ describe('setup-go', () => {
   let os = {} as any;
 
   let inSpy: jest.SpyInstance;
+  let getBooleanInputSpy: jest.SpyInstance;
   let findSpy: jest.SpyInstance;
   let cnSpy: jest.SpyInstance;
   let logSpy: jest.SpyInstance;
@@ -34,7 +35,6 @@ describe('setup-go', () => {
   let mkdirpSpy: jest.SpyInstance;
   let execSpy: jest.SpyInstance;
   let getManifestSpy: jest.SpyInstance;
-  let getBooleanInputSpy: jest.SpyInstance;
 
   beforeAll(() => {
     process.env['GITHUB_PATH'] = ''; // Stub out ENV file functionality so we can verify it writes to standard out
