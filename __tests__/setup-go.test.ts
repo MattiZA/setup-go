@@ -36,12 +36,10 @@ describe('setup-go', () => {
   let execSpy: jest.SpyInstance;
   let getManifestSpy: jest.SpyInstance;
 
-  beforeAll(() => {
+  beforeEach(() => {
     process.env['GITHUB_PATH'] = ''; // Stub out ENV file functionality so we can verify it writes to standard out
     console.log('::stop-commands::stoptoken'); // Disable executing of runner commands when running tests in actions
-  });
 
-  beforeEach(() => {
     // @actions/core
     inputs = {};
     inSpy = jest.spyOn(core, 'getInput');
@@ -84,7 +82,7 @@ describe('setup-go', () => {
     });
     logSpy.mockImplementation(line => {
       // uncomment to debug
-      // process.stderr.write('log:' + line + '\n');
+      process.stderr.write('log:' + line + '\n');
     });
     dbgSpy.mockImplementation(msg => {
       // uncomment to see debug output
@@ -734,6 +732,8 @@ describe('setup-go', () => {
       expect(logSpy).toHaveBeenCalledWith(
         `Attempting to download ${versionSpec}...`
       );
+      console.log(`process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`);
+      
       expect(cnSpy).toHaveBeenCalledWith(`::add-path::${expPath}${osm.EOL}`);
     });
   });
