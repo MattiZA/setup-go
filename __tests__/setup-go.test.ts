@@ -732,8 +732,10 @@ describe('setup-go', () => {
       expect(logSpy).toHaveBeenCalledWith(
         `Attempting to download ${versionSpec}...`
       );
-      console.log(`process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`);
-      
+      console.log(
+        `process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`
+      );
+
       expect(cnSpy).toHaveBeenCalledWith(`::add-path::${expPath}${osm.EOL}`);
     });
   });
