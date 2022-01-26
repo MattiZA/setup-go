@@ -13,6 +13,7 @@ jobs:
     name: Run
     runs-on: ${{ matrix.operating-system }}
     strategy:
+      fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest]
     steps:
