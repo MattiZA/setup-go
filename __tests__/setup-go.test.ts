@@ -37,8 +37,8 @@ describe('setup-go', () => {
   let getManifestSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    process.env['GITHUB_PATH'] = ''; // Stub out ENV file functionality so we can verify it writes to standard out
     console.log('::stop-commands::stoptoken'); // Disable executing of runner commands when running tests in actions
+    process.env['GITHUB_PATH'] = ''; // Stub out ENV file functionality so we can verify it writes to standard out
 
     // @actions/core
     inputs = {};
@@ -98,6 +98,7 @@ describe('setup-go', () => {
 
   afterAll(async () => {
     console.log('::stoptoken::'); // Re-enable executing of runner commands when running tests in actions
+    jest.restoreAllMocks();
   }, 100000);
 
   it('can find 1.9.7 from manifest on osx', async () => {
@@ -735,6 +736,7 @@ describe('setup-go', () => {
       console.log(
         `process.env['GITHUB_PATH'] = ''; is ${process.env['GITHUB_PATH']}`
       );
+      process.env['GITHUB_PATH'] = '';
 
       expect(cnSpy).toHaveBeenCalledWith(`::add-path::${expPath}${osm.EOL}`);
     });
