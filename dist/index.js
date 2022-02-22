@@ -2145,7 +2145,7 @@ function run() {
             const matchersPath = path_1.default.join(__dirname, '..', 'matchers.json');
             core.info(`##[add-matcher]${matchersPath}`);
             // output the version actually being used
-            let goPath = yield io.which('go');
+            let goPath = child_process_1.default.execSync('which go').toString(); //await io.which('go');
             core.info(`goPath is ${goPath}`);
             let goVersion = (child_process_1.default.execSync(`${goPath} version`) || '').toString();
             core.info(goVersion);
