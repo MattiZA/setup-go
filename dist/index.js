@@ -2146,6 +2146,7 @@ function run() {
             core.info(`##[add-matcher]${matchersPath}`);
             // output the version actually being used
             let goPath = yield io.which('go');
+            core.info(`goPath is ${goPath}`);
             let goVersion = (child_process_1.default.execSync(`${goPath} version`) || '').toString();
             core.info(goVersion);
             core.startGroup('go env');
