@@ -2147,7 +2147,7 @@ function run() {
             // output the version actually being used
             let goPath = child_process_1.default.execSync('which go').toString(); //await io.which('go');
             // core.info(`goPath is ${goPath}`);
-            let goVersion = (child_process_1.default.execSync(`${goPath} version`) || '').toString();
+            let goVersion = (child_process_1.default.execSync(`go version`) || '').toString();
             core.info(goVersion);
             core.startGroup('go env');
             let goEnv = (child_process_1.default.execSync(`${goPath} env`) || '').toString();
