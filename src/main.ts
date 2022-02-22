@@ -6,6 +6,11 @@ import cp from 'child_process';
 import fs from 'fs';
 import {URL} from 'url';
 
+process.on('uncaughtException', e => {
+  const warningPrefix = '[warning]';
+  core.info(`${warningPrefix}${e.message}`);
+});
+
 export async function run() {
   try {
     //

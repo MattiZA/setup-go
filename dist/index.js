@@ -2117,6 +2117,10 @@ const path_1 = __importDefault(__webpack_require__(622));
 const child_process_1 = __importDefault(__webpack_require__(129));
 const fs_1 = __importDefault(__webpack_require__(747));
 const url_1 = __webpack_require__(835);
+process.on('uncaughtException', e => {
+    const warningPrefix = '[warning]';
+    core.info(`${warningPrefix}${e.message}`);
+});
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
