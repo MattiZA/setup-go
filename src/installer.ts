@@ -170,7 +170,7 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
         '-Command',
         command
     ];
-    child_process.spawnSync(`${path.join(__dirname, '../..', 'Invoke-7zdec.ps1')}`, args, {shell: "powershell"}) //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
+    child_process.spawnSync(`${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')}`, args, {shell: "powershell"}) //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
     extPath = makeTemp;
   } else {
     extPath = await tc.extractTar(archivePath);
