@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as semver from 'semver';
 import * as httpm from '@actions/http-client';
 import * as sys from './system';
+import * as child_process from 'child_process';
 import fs from 'fs';
 import os from 'os';
 
@@ -156,7 +157,21 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
   let extPath: string;
 
   if (platform === 'win32') {
-    extPath = await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
+    const makeTemp = fs.mkdtempSync(path.join(os.tmpdir(), 'appPrefix'));
+
+    const command = `-Source '${archivePath}' -Target '${makeTemp}'`;
+    const args = [
+        '-NoLogo',
+        '-Sta',
+        '-NoProfile',
+        '-NonInteractive',
+        '-ExecutionPolicy',
+        'Unrestricted',
+        '-Command',
+        command
+    ];
+    child_process.spawnSync(`${path.join(__dirname, '../..', 'Invoke-7zdec.ps1')}`, args, {shell: "powershell"}) //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
+    extPath = makeTemp;
   } else {
     extPath = await tc.extractTar(archivePath);
   }
