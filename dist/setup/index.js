@@ -62960,7 +62960,7 @@ function extractGoArchive(archivePath) {
         const platform = os_1.default.platform();
         let extPath;
         if (platform === 'win32') {
-            extPath = yield tc.extractZip(archivePath);
+            extPath = yield tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zr.exe'));
         }
         else {
             extPath = yield tc.extractTar(archivePath);
