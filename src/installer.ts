@@ -156,7 +156,7 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
   let extPath: string;
 
   if (platform === 'win32') {
-    extPath = await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zr.exe'));
+    extPath = await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
   } else {
     extPath = await tc.extractTar(archivePath);
   }
