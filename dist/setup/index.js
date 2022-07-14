@@ -62857,6 +62857,7 @@ const semver = __importStar(__nccwpck_require__(5911));
 const httpm = __importStar(__nccwpck_require__(6255));
 const sys = __importStar(__nccwpck_require__(4300));
 const child_process = __importStar(__nccwpck_require__(2081));
+const io = __importStar(__nccwpck_require__(7436));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const os_1 = __importDefault(__nccwpck_require__(2037));
 function getGo(versionSpec, checkLatest, auth) {
@@ -62962,11 +62963,19 @@ function extractGoArchive(archivePath) {
         let extPath;
         if (platform === 'win32') {
             const makeTemp = fs_1.default.mkdtempSync(path.join(os_1.default.tmpdir(), 'appPrefix'));
-            const command = `-Source '${archivePath}' -Target '${makeTemp}'`;
+            const command = `${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')} -Source '${archivePath}' -Target '${makeTemp}'`;
             const args = [
+                '-NoLogo',
+                '-Sta',
+                '-NoProfile',
+                '-NonInteractive',
+                '-ExecutionPolicy',
+                'Unrestricted',
+                '-Command',
                 command
             ];
-            const { output, stderr, stdout } = child_process.spawnSync(`${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')}`, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
+            const powershell = yield io.which('powershell', true);
+            const { output, stderr, stdout } = child_process.spawnSync(powershell, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
             extPath = makeTemp;
             console.log(`${stdout}\n ${output}\n ${stderr}`);
         }
