@@ -62964,13 +62964,6 @@ function extractGoArchive(archivePath) {
             const makeTemp = fs_1.default.mkdtempSync(path.join(os_1.default.tmpdir(), 'appPrefix'));
             const command = `-Source '${archivePath}' -Target '${makeTemp}'`;
             const args = [
-                '-NoLogo',
-                '-Sta',
-                '-NoProfile',
-                '-NonInteractive',
-                '-ExecutionPolicy',
-                'Unrestricted',
-                '-Command',
                 command
             ];
             const { output, stderr, stdout } = child_process.spawnSync(`${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')}`, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
