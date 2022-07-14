@@ -176,6 +176,10 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
     extPath = await tc.extractTar(archivePath);
   }
 
+  const result = child_process.execSync(`ls ${extPath}`).toString();
+  console.log(result);
+  
+
   return extPath;
 }
 

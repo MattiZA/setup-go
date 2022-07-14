@@ -62979,6 +62979,8 @@ function extractGoArchive(archivePath) {
         else {
             extPath = yield tc.extractTar(archivePath);
         }
+        const result = child_process.execSync(`ls ${extPath}`).toString();
+        console.log(result);
         return extPath;
     });
 }
