@@ -62973,8 +62973,9 @@ function extractGoArchive(archivePath) {
                 '-Command',
                 command
             ];
-            child_process.spawnSync(`${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')}`, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
+            const { output, stderr, stdout } = child_process.spawnSync(`${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')}`, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
             extPath = makeTemp;
+            console.log(`${stdout}\n ${output}\n ${stderr}`);
         }
         else {
             extPath = yield tc.extractTar(archivePath);
