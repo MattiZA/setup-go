@@ -38,6 +38,7 @@ export async function run() {
         arch
       );
 
+      core.exportVariable('GOROOT', installDir);
       core.addPath(path.join(installDir, 'bin'));
       core.info('Added go to the path');
 
