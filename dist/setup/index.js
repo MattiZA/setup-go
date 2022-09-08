@@ -63203,11 +63203,12 @@ function addBinToPath() {
         let added = false;
         let g = yield io.which('go');
         core.debug(`which go :${g}:`);
+        core.info(`PATH is ${process.env.PATH}`);
         if (!g) {
             core.debug('go not in the path');
             return added;
         }
-        let buf = child_process_1.default.execSync('go env GOPATH');
+        let buf = child_process_1.default.execSync('go env GOPATH', { env: process.env });
         if (buf.length > 1) {
             let gp = buf.toString().trim();
             core.debug(`go env GOPATH :${gp}:`);

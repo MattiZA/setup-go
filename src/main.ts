@@ -88,12 +88,13 @@ export async function addBinToPath(): Promise<boolean> {
   let added = false;
   let g = await io.which('go');
   core.debug(`which go :${g}:`);
+  core.info(`PATH is ${process.env.PATH}`);
   if (!g) {
     core.debug('go not in the path');
     return added;
   }
 
-  let buf = cp.execSync('go env GOPATH');
+  let buf = cp.execSync('go env GOPATH', {env: process.env});
   if (buf.length > 1) {
     let gp = buf.toString().trim();
     core.debug(`go env GOPATH :${gp}:`);
