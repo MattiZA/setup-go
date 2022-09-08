@@ -62746,6 +62746,8 @@ const core = __importStar(__nccwpck_require__(2186));
 const exec = __importStar(__nccwpck_require__(1514));
 const package_managers_1 = __nccwpck_require__(6663);
 exports.getCommandOutput = (toolCommand) => __awaiter(void 0, void 0, void 0, function* () {
+    const whichGo = yield exec.getExecOutput('which go');
+    core.info(`whichGo is ${whichGo} and Path is ${process.env.PATH}`);
     let { stdout, stderr, exitCode } = yield exec.getExecOutput(toolCommand, undefined, { ignoreReturnCode: true });
     if (exitCode) {
         stderr = !stderr.trim()

@@ -4,6 +4,8 @@ import * as exec from '@actions/exec';
 import {supportedPackageManagers, PackageManagerInfo} from './package-managers';
 
 export const getCommandOutput = async (toolCommand: string) => {
+  const whichGo = await exec.getExecOutput('which go');
+  core.info(`whichGo is ${whichGo} and Path is ${process.env.PATH}`);
   let {stdout, stderr, exitCode} = await exec.getExecOutput(
     toolCommand,
     undefined,
