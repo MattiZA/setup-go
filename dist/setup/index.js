@@ -63181,8 +63181,10 @@ function run() {
             const matchersPath = path_1.default.join(__dirname, '../..', 'matchers.json');
             core.info(`##[add-matcher]${matchersPath}`);
             // output the version actually being used
+            core.info(`PATH is ${process.env.PATH}`);
             let goPath = yield io.which('go');
-            let goVersion = (child_process_1.default.execSync(`${goPath} version`) || '').toString();
+            core.info(`goPath is ${goPath}`);
+            let goVersion = (child_process_1.default.execSync(`${goPath} version`, { env: process.env }) || '').toString();
             core.info(goVersion);
             core.setOutput('go-version', parseGoVersion(goVersion));
             core.startGroup('go env');
