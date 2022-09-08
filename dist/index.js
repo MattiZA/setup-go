@@ -2118,6 +2118,7 @@ function addBinToPath() {
             return added;
         }
         let buf = child_process_1.default.execSync('go env GOPATH');
+        core.info(buf.toString());
         if (buf) {
             let gp = buf.toString().trim();
             core.debug(`go env GOPATH :${gp}:`);

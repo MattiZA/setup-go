@@ -69,6 +69,7 @@ export async function addBinToPath(): Promise<boolean> {
   }
 
   let buf = cp.execSync('go env GOPATH');
+  core.info(buf.toString());
   if (buf) {
     let gp = buf.toString().trim();
     core.debug(`go env GOPATH :${gp}:`);
