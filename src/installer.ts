@@ -45,9 +45,9 @@ export async function getGo(
   ) {
     manifest = await getManifest(auth);
     versionSpec = await resolveStableVersionInput(
-      versionSpec,
-      auth,
+      versionSpec, // stable - 1.19.7, oldStable - 1.18.12
       arch,
+      osPlat,
       manifest
     );
   }
@@ -276,8 +276,8 @@ export async function findMatch(
     });
     versionSpec = await resolveStableVersionInput(
       versionSpec,
-      undefined,
       archFilter,
+      platFilter,
       fixedCandidates
     );
   }
@@ -372,18 +372,15 @@ export function parseGoVersionFile(versionFilePath: string): string {
 
 export async function resolveStableVersionInput(
   versionSpec: string,
-  auth: string | undefined,
   arch = os.arch(),
-  manifest: tc.IToolRelease[] | IGoVersion[] | undefined
+  platform: string,
+  manifest: tc.IToolRelease[] | IGoVersion[]
 ): Promise<string> {
-  if (!manifest) {
-    core.debug('No manifest cached');
-    manifest = await getManifest(auth);
-  }
-
   const releases = manifest
     .map(item => {
-      const index = item.files.findIndex(item => item.arch === arch);
+      const index = item.files.findIndex(
+        item => item.arch === arch && item.filename.includes(platform)
+      );
       if (index === -1) {
         return '';
       }
