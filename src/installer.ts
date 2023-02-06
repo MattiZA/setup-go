@@ -205,12 +205,15 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
 
   if (platform === 'win32') {
     const _7zPath = path.join(__dirname, '../..', 'externals', '7zr.exe');
+    core.debug(`_7zPath is ${_7zPath}`);
     extPath = await tc.extract7z(archivePath, undefined, _7zPath);
     const fileName = path.basename(archivePath, '.7z')
+    core.debug(`baseName is ${fileName}`);
     const nestedPath = path.join(
       extPath,
       path.basename(fileName, '.7z')
     );
+    core.debug(`nestedPath is ${nestedPath}`);
     if (fs.existsSync(nestedPath)) {
       extPath = nestedPath;
     }
