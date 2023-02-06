@@ -158,32 +158,19 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
   let extPath: string;
 
   if (platform === 'win32') {
-    const makeTemp = fs.mkdtempSync(path.join(os.tmpdir(), 'appPrefix'));
-
-    const command = `${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')} -Source '${archivePath}' -Target '${makeTemp}'`;
-    const args = [
-        '-NoLogo',
-        '-Sta',
-        '-NoProfile',
-        '-NonInteractive',
-        '-ExecutionPolicy',
-        'Unrestricted',
-        '-Command',
-        command
-    ];
-
-    const powershell = await io.which('powershell', true);
-    const { output, stderr, stdout } = child_process.spawnSync(powershell, args, {shell: "powershell"}); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
-    extPath = makeTemp;
-    console.log(`${stdout}\n ${output}\n ${stderr}`);
-    
+    const _7zPath = path.join(__dirname, '../..', 'externals', '7zr.exe');
+    extPath = await tc.extract7z(archivePath, undefined, _7zPath);
+    const fileName = path.basename(archivePath, '.7z')
+    const nestedPath = path.join(
+      extPath,
+      path.basename(fileName, '.7z')
+    );
+    if (fs.existsSync(nestedPath)) {
+      extPath = nestedPath;
+    }
   } else {
     extPath = await tc.extractTar(archivePath);
   }
-
-  const result = child_process.execSync(`ls ${extPath}`).toString();
-  console.log(result);
-  
 
   return extPath;
 }

@@ -62856,8 +62856,6 @@ const path = __importStar(__nccwpck_require__(1017));
 const semver = __importStar(__nccwpck_require__(5911));
 const httpm = __importStar(__nccwpck_require__(6255));
 const sys = __importStar(__nccwpck_require__(4300));
-const child_process = __importStar(__nccwpck_require__(2081));
-const io = __importStar(__nccwpck_require__(7436));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const os_1 = __importDefault(__nccwpck_require__(2037));
 function getGo(versionSpec, checkLatest, auth) {
@@ -62962,28 +62960,17 @@ function extractGoArchive(archivePath) {
         const platform = os_1.default.platform();
         let extPath;
         if (platform === 'win32') {
-            const makeTemp = fs_1.default.mkdtempSync(path.join(os_1.default.tmpdir(), 'appPrefix'));
-            const command = `${path.join(__dirname, '../..', 'scripts', 'Invoke-7zdec.ps1')} -Source '${archivePath}' -Target '${makeTemp}'`;
-            const args = [
-                '-NoLogo',
-                '-Sta',
-                '-NoProfile',
-                '-NonInteractive',
-                '-ExecutionPolicy',
-                'Unrestricted',
-                '-Command',
-                command
-            ];
-            const powershell = yield io.which('powershell', true);
-            const { output, stderr, stdout } = child_process.spawnSync(powershell, args, { shell: "powershell" }); //await tc.extract7z(archivePath, undefined, path.join(__dirname, '../..', 'externals', '7zdec.exe'));
-            extPath = makeTemp;
-            console.log(`${stdout}\n ${output}\n ${stderr}`);
+            const _7zPath = path.join(__dirname, '../..', 'externals', '7zr.exe');
+            extPath = yield tc.extract7z(archivePath, undefined, _7zPath);
+            const fileName = path.basename(archivePath, '.7z');
+            const nestedPath = path.join(extPath, path.basename(fileName, '.7z'));
+            if (fs_1.default.existsSync(nestedPath)) {
+                extPath = nestedPath;
+            }
         }
         else {
             extPath = yield tc.extractTar(archivePath);
         }
-        const result = child_process.execSync(`ls ${extPath}`).toString();
-        console.log(result);
         return extPath;
     });
 }
