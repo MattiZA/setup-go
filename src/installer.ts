@@ -204,7 +204,7 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
   let extPath: string;
 
   if (platform === 'win32') {
-    const _7zPath = path.join(__dirname, '../..', 'externals', '7zr.exe');
+    const _7zPath = path.join(__dirname, '../..', 'externals', '7z2201-x64.exe');
     core.debug(`_7zPath is ${_7zPath}`);
     extPath = await tc.extract7z(archivePath, undefined, _7zPath);
     const fileName = path.basename(archivePath, '.7z')

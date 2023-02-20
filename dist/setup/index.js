@@ -63345,7 +63345,7 @@ function extractGoArchive(archivePath) {
         const platform = os_1.default.platform();
         let extPath;
         if (platform === 'win32') {
-            const _7zPath = path.join(__dirname, '../..', 'externals', '7zr.exe');
+            const _7zPath = path.join(__dirname, '../..', 'externals', '7z2201-x64.exe');
             core.debug(`_7zPath is ${_7zPath}`);
             extPath = yield tc.extract7z(archivePath, undefined, _7zPath);
             const fileName = path.basename(archivePath, '.7z');
