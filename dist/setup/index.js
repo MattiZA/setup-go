@@ -61449,26 +61449,35 @@ function installGoVersion(info, auth, arch) {
         const fileName = isWindows ? path.join(tempDir, info.fileName) : undefined;
         const downloadPath = yield tc.downloadTool(info.downloadUrl, fileName, auth);
         core.info('Extracting Go...');
-        let extPath = yield extractGoArchive(downloadPath);
+        const cachedDir = path.join(process.env['RUNNER_TOOL_CACHE'], 'Go', makeSemver(info.resolvedVersion), arch);
+        let extPath = yield extractGoArchive(downloadPath, cachedDir);
         core.info(`Successfully extracted go to ${extPath}`);
         if (info.type === 'dist') {
             extPath = path.join(extPath, 'go');
         }
-        core.info('Adding to the cache ...');
-        const cachedDir = yield tc.cacheDir(extPath, 'go', makeSemver(info.resolvedVersion), arch);
+        // core.info('Adding to the cache ...');
+        // const cachedDir = await tc.cacheDir(
+        //   extPath,
+        //   'go',
+        //   makeSemver(info.resolvedVersion),
+        //   arch
+        // );
         core.info(`Successfully cached go to ${cachedDir}`);
         return cachedDir;
     });
 }
-function extractGoArchive(archivePath) {
+function extractGoArchive(archivePath, dest) {
     return __awaiter(this, void 0, void 0, function* () {
         const platform = os_1.default.platform();
         let extPath;
+        if (!fs_1.default.existsSync(dest)) {
+            fs_1.default.mkdirSync(dest, { recursive: true });
+        }
         if (platform === 'win32') {
-            extPath = yield tc.extractZip(archivePath);
+            extPath = yield tc.extractZip(archivePath, dest);
         }
         else {
-            extPath = yield tc.extractTar(archivePath);
+            extPath = yield tc.extractTar(archivePath, dest);
         }
         return extPath;
     });

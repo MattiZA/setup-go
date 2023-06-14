@@ -179,31 +179,44 @@ async function installGoVersion(
   const downloadPath = await tc.downloadTool(info.downloadUrl, fileName, auth);
 
   core.info('Extracting Go...');
-  let extPath = await extractGoArchive(downloadPath);
+  const cachedDir = path.join(
+    process.env['RUNNER_TOOL_CACHE']!,
+    'Go',
+    makeSemver(info.resolvedVersion),
+    arch
+  );
+  let extPath = await extractGoArchive(downloadPath, cachedDir);
   core.info(`Successfully extracted go to ${extPath}`);
   if (info.type === 'dist') {
     extPath = path.join(extPath, 'go');
   }
 
-  core.info('Adding to the cache ...');
-  const cachedDir = await tc.cacheDir(
-    extPath,
-    'go',
-    makeSemver(info.resolvedVersion),
-    arch
-  );
+  // core.info('Adding to the cache ...');
+  // const cachedDir = await tc.cacheDir(
+  //   extPath,
+  //   'go',
+  //   makeSemver(info.resolvedVersion),
+  //   arch
+  // );
   core.info(`Successfully cached go to ${cachedDir}`);
   return cachedDir;
 }
 
-export async function extractGoArchive(archivePath: string): Promise<string> {
+export async function extractGoArchive(
+  archivePath: string,
+  dest: string
+): Promise<string> {
   const platform = os.platform();
   let extPath: string;
 
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, {recursive: true});
+  }
+
   if (platform === 'win32') {
-    extPath = await tc.extractZip(archivePath);
+    extPath = await tc.extractZip(archivePath, dest);
   } else {
-    extPath = await tc.extractTar(archivePath);
+    extPath = await tc.extractTar(archivePath, dest);
   }
 
   return extPath;
