@@ -8047,8 +8047,8 @@ function extractZipWin(file, dest) {
             const pwshCommand = [
                 `$ErrorActionPreference = 'Stop' ;`,
                 `try { Add-Type -AssemblyName System.IO.Compression.ZipFile } catch { } ;`,
-                `try { [System.IO.Compression.ZipFile]::ExtractToDirectory('${escapedFile}', '${escapedDest}', $true); Write-Host 'Done with ExtractToDirectory' }`,
-                `catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Write-Host 'Came to Expand Archive'; Expand-Archive -LiteralPath '${escapedFile}' -DestinationPath '${escapedDest}' -Force } else { throw $_ } } ;`
+                `try { [System.IO.Compression.ZipFile]::ExtractToDirectory('${escapedFile}', '${escapedDest}', $true) }`,
+                `catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Expand-Archive -LiteralPath '${escapedFile}' -DestinationPath '${escapedDest}' -Force } else { throw $_ } } ;`
             ].join(' ');
             const args = [
                 '-NoLogo',
@@ -8066,7 +8066,7 @@ function extractZipWin(file, dest) {
             const powershellCommand = [
                 `$ErrorActionPreference = 'Stop' ;`,
                 `try { Add-Type -AssemblyName System.IO.Compression.FileSystem } catch { } ;`,
-                `if ((Get-Command -Name Expand-Archive -Module Microsoft.PowerShell.Archive -ErrorAction Ignore)) { Write-Host 'Came to Expand Archive'; Expand-Archive -LiteralPath '${escapedFile}' -DestinationPath '${escapedDest}' -Force }`,
+                `if ((Get-Command -Name Expand-Archive -Module Microsoft.PowerShell.Archive -ErrorAction Ignore)) { Expand-Archive -LiteralPath '${escapedFile}' -DestinationPath '${escapedDest}' -Force }`,
                 `else {[System.IO.Compression.ZipFile]::ExtractToDirectory('${escapedFile}', '${escapedDest}', $true) }`
             ].join(' ');
             const args = [
@@ -61447,6 +61447,7 @@ function installGoVersion(info, auth, arch) {
         const isWindows = os_1.default.platform() === 'win32';
         const tempDir = process.env.RUNNER_TEMP || '.';
         const fileName = isWindows ? path.join(tempDir, info.fileName) : undefined;
+        core.info(`Temporary directory ${os_1.default.tmpdir()}`);
         const downloadPath = yield tc.downloadTool(info.downloadUrl, fileName, auth);
         core.info('Extracting Go...');
         const cachedDir = path.join(process.env['RUNNER_TOOL_CACHE'], 'Go', makeSemver(info.resolvedVersion), arch);

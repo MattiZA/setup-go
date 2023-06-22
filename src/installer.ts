@@ -175,7 +175,7 @@ async function installGoVersion(
   const isWindows = os.platform() === 'win32';
   const tempDir = process.env.RUNNER_TEMP || '.';
   const fileName = isWindows ? path.join(tempDir, info.fileName) : undefined;
-
+  core.info(`Temporary directory ${os.tmpdir()}`);
   const downloadPath = await tc.downloadTool(info.downloadUrl, fileName, auth);
 
   core.info('Extracting Go...');
