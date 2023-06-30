@@ -61476,7 +61476,7 @@ function extractGoArchive(archivePath) {
 exports.extractGoArchive = extractGoArchive;
 function getManifest(auth) {
     return __awaiter(this, void 0, void 0, function* () {
-        return tc.getManifestFromRepo('actions', 'dmitry-shibanov', auth, 'update-versions-manifest-file');
+        return tc.getManifestFromRepo('dmitry-shibanov', 'go-versions', auth, 'update-versions-manifest-file');
     });
 }
 exports.getManifest = getManifest;
