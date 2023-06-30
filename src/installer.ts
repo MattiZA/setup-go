@@ -210,7 +210,7 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
 }
 
 export async function getManifest(auth: string | undefined) {
-  return tc.getManifestFromRepo('actions', 'go-versions', auth, 'main');
+  return tc.getManifestFromRepo('actions', 'dmitry-shibanov', auth, 'update-versions-manifest-file');
 }
 
 export async function getInfoFromManifest(
