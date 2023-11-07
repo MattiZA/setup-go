@@ -275,7 +275,7 @@ export async function extractGoArchive(archivePath: string): Promise<string> {
 }
 
 export async function getManifest(auth: string | undefined) {
-  return tc.getManifestFromRepo('actions', 'go-versions', auth, 'v-dmshib/change-manifest');
+  return tc.getManifestFromRepo('actions', 'go-versions', auth, 'update-versions-manifest-file');
 }
 
 export async function getInfoFromManifest(
