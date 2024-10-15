@@ -2,7 +2,7 @@ name: Validate 'setup-go'
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - '**.md'
   pull_request:
@@ -31,6 +31,24 @@ jobs:
 
       - name: verify go
         run: __tests__/verify-go.sh ${{ matrix.go }}
+        shell: bash
+
+  check-latest:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        go-version: [1.16, 1.17]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Go and check latest
+        uses: ./
+        with:
+          go-version: ${{ matrix.go-version }}
+          check-latest: true
+      - name: Verify Go
+        run: go version
         shell: bash
 
   setup-versions-from-manifest:
@@ -63,12 +81,14 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
         go: [1.7, 1.8.6]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: setup-go ${{ matrix.go }}
-      uses: ./
-      with:
-        go-version: ${{ matrix.go }}
-    - name: verify go
-      run: __tests__/verify-go.sh ${{ matrix.go }}
-      shell: bash
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: setup-go ${{ matrix.go }}
+        uses: ./
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: verify go
+        run: __tests__/verify-go.sh ${{ matrix.go }}
+        shell: bash
